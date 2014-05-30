@@ -110,15 +110,6 @@ struct inf {
 	//char *pass;
 	int volume;
 };
-int convToInt(char *A) {
-	int i=0;
-	int res=0;
-	while (((int)A[i]>(int)'0')&&((int)A[i]<=(int)'9')) {
-		res=10*res+(int)A[i]-(int)('0');
-		i++;
-	}
-	return res;
-};
 int main(int argc,char *argv[])
 {
 	if (argv[1][0]=='-') {
@@ -139,7 +130,7 @@ int main(int argc,char *argv[])
 			Inf[j].filename=argv[j*4+1];
 			Inf[j].type=argv[j*4+2];
 			rc6_key_setup(argv[j*4+3],8);
-			Inf[j].volume=convToInt(argv[j*4+4]);
+			Inf[j].volume=atoi(argv[j*4+4]);
 			char name[13]="output00.txt";
 			name[6]=((j+1)/10)+int('0');
 			name[7]=((j+1)%10)+int('0');

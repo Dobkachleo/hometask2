@@ -18,16 +18,15 @@
 unsigned int S[R24 - 1];/* Key schedule */
 void rc6_key_setup(const char *K, int b)
 {
-	int i, j, s, v;
-	unsigned int L[(32 + bytes - 1) / bytes]; /* Big enough for max b */
-	unsigned int A, B;
+	int i=0, j=0, s, v;
+	unsigned int L[(32 + bytes - 1) / bytes]; // Big enough for max b
+	unsigned int A=0, B=0;
 	L[c - 1] = 0;
 	for (i = b - 1; i >= 0; i--)
 		L[i / bytes] = (L[i / bytes] << 8) + K[i];
 	S[0] = P32;
 	for (i = 1; i <= 2 * r + 3; i++)
 		S[i] = S[i - 1] + Q32;
-	A = B = i = j = 0;
 	v = R24;
 	if (c > v) v = c;
 	v *= 3;

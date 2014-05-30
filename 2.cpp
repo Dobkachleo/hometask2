@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define w 32/* word size in bits */
 #define r 20/* based on security estimates */
@@ -105,62 +106,66 @@ struct inf {
 };
 int main(int argc,char *argv[])
 {
-	if (argv[1][0]=='-') {
-		printf("Help");
-	} else {
-		unsigned int ct[4], pt[4];
-		int numOfOps=((argc-1)/4);
-		struct inf* Inf=(struct inf*)malloc(numOfOps*16);
-		/*rc6_key_setup("1234",8);
-		pt[0]=0x12;
-		pt[1]=0x3a;
-		pt[2]=0xb1;
-		pt[3]=0x22;
-		rc6_block_encrypt(pt,ct);
-		rc6_block_decrypt(ct,pt);
-		*/
-		for (int j=0;j<numOfOps;j++) {
-			Inf[j].filename=argv[j*4+1];
-			Inf[j].type=argv[j*4+2];
-			rc6_key_setup(argv[j*4+3],8);
-			Inf[j].volume=atoi(argv[j*4+4]);
-			char name[13]="output00.txt";
-			name[6]=((j+1)/10)+int('0');
-			name[7]=((j+1)%10)+int('0');
-			int vol=Inf[j].volume;
-			unsigned char *list1=(unsigned char*)malloc(vol*sizeof(unsigned char));
-			unsigned int *list2=(unsigned int*)malloc(4*vol*sizeof(unsigned int));
-			FILE* fout;
-			fout = fopen(name,"wb");
-			FILE* fin; 
-			fin = fopen(Inf[j].filename,"rb");
-			if (Inf[j].type[0]=='c') {
-				fread(list1, sizeof(unsigned char), vol, fin);
-				for (int i=0;i<vol;i++) {
-					for (int l=0; l<4; l++)
-						pt[l]=list1[i];
-					rc6_block_encrypt(pt,ct);
-					for (int l=0; l<4; l++)
-						list2[4*i+l]=ct[l];
-				}
-				fwrite(list2, sizeof(unsigned int), 4*vol, fout);
-			} else {
-				fread(list2, sizeof(unsigned int), 4*vol, fin);
-				for (int i=0;i<vol;i++) {
-					for (int l=0; l<4; l++)
-						pt[l]=list2[4*i+l];
-					rc6_block_decrypt(pt,ct);
-					list1[i]=ct[0];
-				}
-				fwrite(list1, sizeof(unsigned char), vol, fout);
-			}
-			fclose(fin);
-			fclose(fout);
+	if (argc>1) {
+		if (strcmp(argv[1],"help")==0) {
+			printf("Help");
+		} else 
+			if (argc%5==0) {
+				unsigned int ct[4], pt[4];
+				int numOfOps=((argc-1)/4);
+				struct inf* Inf=(struct inf*)malloc(numOfOps*16);
+				/*rc6_key_setup("1234",8);
+				pt[0]=0x12;
+				pt[1]=0x3a;
+				pt[2]=0xb1;
+				pt[3]=0x22;
+				rc6_block_encrypt(pt,ct);
+				rc6_block_decrypt(ct,pt);
+				*/
+				for (int j=0;j<numOfOps;j++) {
+					Inf[j].filename=argv[j*4+1];
+					Inf[j].type=argv[j*4+2];
+					rc6_key_setup(argv[j*4+3],8);
+					Inf[j].volume=atoi(argv[j*4+4]);
+					char name[13]="output00.txt";
+					name[6]=((j+1)/10)+int('0');
+					name[7]=((j+1)%10)+int('0');
+					int vol=Inf[j].volume;
+					unsigned char *list1=(unsigned char*)malloc(vol*sizeof(unsigned char));
+					unsigned int *list2=(unsigned int*)malloc(4*vol*sizeof(unsigned int));
+					FILE* fout;
+					fout = fopen(name,"wb");
+					FILE* fin; 
+					fin = fopen(Inf[j].filename,"rb");
+					if (Inf[j].type[0]=='c') {
+						fread(list1, sizeof(unsigned char), vol, fin);
+						for (int i=0;i<vol;i++) {
+							for (int l=0; l<4; l++)
+								pt[l]=list1[i];
+							rc6_block_encrypt(pt,ct);
+							for (int l=0; l<4; l++)
+								list2[4*i+l]=ct[l];
+						}
+						fwrite(list2, sizeof(unsigned int), 4*vol, fout);
+					}  else
+						if (Inf[j].type[0]=='d') {
+							fread(list2, sizeof(unsigned int), 4*vol, fin);
+							for (int i=0;i<vol;i++) {
+								for (int l=0; l<4; l++)
+									pt[l]=list2[4*i+l];
+								rc6_block_decrypt(pt,ct);
+								list1[i]=ct[0];
+							}
+							fwrite(list1, sizeof(unsigned char), vol, fout);
+						} else printf("Invalid flag");
+					fclose(fin);
+					fclose(fout);
 
-			free(list1);
-			free(list2);
-		}
-		free(Inf);
-	}
+					free(list1);
+					free(list2);
+				}
+				free(Inf);
+			} else printf("Some arguments were missed");
+	} else printf("Where are all arguments?!");
 	return 0;
 }

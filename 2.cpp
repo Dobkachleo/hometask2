@@ -107,7 +107,7 @@ int main(int argc,char *argv[])
 {
 	if (argc>1) {
 		if (strcmp(argv[1],"help")==0) {
-			printf("Help");
+			printf("Help (general view): path-to-file flag key size_of_plain_or_decrypted_file");
 		} else 
 			if (argc%5==0) {
 				unsigned int ct[4], pt[4];

@@ -16,7 +16,7 @@
 #define ROTR(x,y) (((x)>>(y&(w-1))) | ((x)<<(w-(y&(w-1)))))
 
 unsigned int S[R24 - 1];/* Key schedule */
-void rc6_key_setup(char *K, int b)
+void rc6_key_setup(const char *K, int b)
 {
 	int i, j, s, v;
 	unsigned int L[(32 + bytes - 1) / bytes]; /* Big enough for max b */
@@ -40,7 +40,7 @@ void rc6_key_setup(char *K, int b)
 		j = (j + 1) % c;
 	}
 };
-void rc6_block_encrypt(unsigned int *pt, unsigned int *ct)
+void rc6_block_encrypt(const unsigned int *pt, unsigned int *ct)
 {
 	unsigned int A, B, C, D, t, u, x;
 	int i, j;
@@ -69,7 +69,7 @@ void rc6_block_encrypt(unsigned int *pt, unsigned int *ct)
 	ct[2] = C;
 	ct[3] = D;
 };
-void rc6_block_decrypt(unsigned int *ct, unsigned int *pt)
+void rc6_block_decrypt(const unsigned int *ct, unsigned int *pt)
 {
 	unsigned int A, B, C, D, t, u, x;
 	int i, j;

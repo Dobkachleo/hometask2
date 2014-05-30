@@ -42,7 +42,7 @@ void rc6_key_setup(const char *K, int b)
 void rc6_block_encrypt(const unsigned int *pt, unsigned int *ct)
 {
 	unsigned int A, B, C, D, t, u, x;
-	int i, j;
+	int i;
 	A = pt[0];
 	B = pt[1];
 	C = pt[2];
@@ -71,7 +71,7 @@ void rc6_block_encrypt(const unsigned int *pt, unsigned int *ct)
 void rc6_block_decrypt(const unsigned int *ct, unsigned int *pt)
 {
 	unsigned int A, B, C, D, t, u, x;
-	int i, j;
+	int i;
 	A = ct[0];
 	B = ct[1];
 	C = ct[2];

@@ -34,7 +34,7 @@ void rc6_key_setup(const char *K, int b)
 	for (s = 1; s <= v; s++)
 	{
 		A = S[i] = ROTL(S[i] + A + B, 3);
-		B = L[j] = ROTL(L[j] + A + B, A + B);
+		B = L[j] = ROTL(L[j] + A + B, (A + B));
 		i = (i + 1) % R24;
 		j = (j + 1) % c;
 	}

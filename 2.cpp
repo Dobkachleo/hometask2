@@ -97,13 +97,6 @@ void rc6_block_decrypt(unsigned int *ct, unsigned int *pt)
 	pt[2] = C;
 	pt[3] = D;
 };
-struct test_struct
-{
-	int keylen;
-	unsigned char key[32];
-	unsigned int pt[4];
-	unsigned int ct[4];
-};
 struct inf {
 	char *filename;
 	char *type;

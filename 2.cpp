@@ -38,7 +38,7 @@ void rc6_key_setup(const char *K, int b)
 		i = (i + 1) % R24;
 		j = (j + 1) % c;
 	}
-};
+}
 void rc6_block_encrypt(const unsigned int *pt, unsigned int *ct)
 {
 	unsigned int A, B, C, D, t, u, x;
@@ -67,7 +67,7 @@ void rc6_block_encrypt(const unsigned int *pt, unsigned int *ct)
 	ct[1] = B;
 	ct[2] = C;
 	ct[3] = D;
-};
+}
 void rc6_block_decrypt(const unsigned int *ct, unsigned int *pt)
 {
 	unsigned int A, B, C, D, t, u, x;
@@ -96,7 +96,7 @@ void rc6_block_decrypt(const unsigned int *ct, unsigned int *pt)
 	pt[1] = B;
 	pt[2] = C;
 	pt[3] = D;
-};
+}
 struct inf {
 	char *filename;
 	char *type;
@@ -128,7 +128,7 @@ int main(int argc,char *argv[])
 						Inf[j].type=argv[j*4+2];
 						rc6_key_setup(argv[j*4+3],8);
 						Inf[j].volume=atoi(argv[j*4+4]);
-						char name[13]="output00.txt";
+						char name[13]; strcpy(name,"output00.txt");
 						name[6]=((j+1)/10)+int('0');
 						name[7]=((j+1)%10)+int('0');
 						int vol=Inf[j].volume;

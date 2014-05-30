@@ -179,6 +179,8 @@ int main(int argc,char *argv[])
 			fclose(fin);
 			fclose(fout);
 
+			free(list1);
+			free(list2);
 		}
 		free(Inf);
 	}

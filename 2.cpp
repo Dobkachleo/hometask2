@@ -2,20 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define w 32/* word size in bits */
-#define r 20/* based on security estimates */
-#define P32 0xB7E15163/* Magic constants for key setup */
+#define w 32 // word size in bits
+#define r 20 // based on security estimates
+#define P32 0xB7E15163 // Magic constants for key setup
 #define Q32 0x9E3779B9
-/* derived constants */
-#define bytes   (w / 8)/* bytes per word */
-#define c       ((b + bytes - 1) / bytes)/* key in words, rounded up */
+// derived constants
+#define bytes   (w / 8) // bytes per word
+#define c       ((b + bytes - 1) / bytes) // key in words, rounded u
 #define R24     (2 * r + 4)
-#define lgw     5                       /* log2(w) -- wussed out */
-/* Rotations */
+#define lgw     5                         // log2(w) -- wussed out
+// Rotations
 #define ROTL(x,y) (((x)<<(y&(w-1))) | ((x)>>(w-(y&(w-1)))))
 #define ROTR(x,y) (((x)>>(y&(w-1))) | ((x)<<(w-(y&(w-1)))))
 
-unsigned int S[R24 - 1];/* Key schedule */
+unsigned int S[R24 - 1]; // Key schedule
 void rc6_key_setup(const char *K, int b)
 {
 	int i=0, j=0, s, v;
@@ -100,7 +100,7 @@ void rc6_block_decrypt(const unsigned int *ct, unsigned int *pt)
 struct inf {
 	char *filename;
 	char *type;
-	//char *pass;
+	//DEPRECATED char *pass;
 	int volume;
 };
 int main(int argc,char *argv[])
@@ -111,9 +111,10 @@ int main(int argc,char *argv[])
 		} else 
 			if (argc%5==0) {
 				unsigned int ct[4], pt[4];
-				int numOfOps=((argc-1)/4);
-				struct inf* Inf=(struct inf*)malloc(numOfOps*16);
-				/*rc6_key_setup("1234",8);
+				int num_of_ops=((argc-1)/4);
+				struct inf* Inf=(struct inf*)malloc(num_of_ops*16);
+				/*DEPRECATED
+				rc6_key_setup("1234",8);
 				pt[0]=0x12;
 				pt[1]=0x3a;
 				pt[2]=0xb1;
@@ -121,7 +122,7 @@ int main(int argc,char *argv[])
 				rc6_block_encrypt(pt,ct);
 				rc6_block_decrypt(ct,pt);
 				*/
-				for (int j=0;j<numOfOps;j++) {
+				for (int j=0;j<num_of_ops;j++) {
 					Inf[j].filename=argv[j*4+1];
 					Inf[j].type=argv[j*4+2];
 					rc6_key_setup(argv[j*4+3],8);

@@ -144,24 +144,18 @@ int main(int argc,char *argv[])
 			if (Inf[j].type[0]=='c') {
 				fread(list1, sizeof(unsigned char), vol, fin);
 				for (int i=0;i<vol;i++) {
-					pt[0]=list1[i];
-					pt[1]=list1[i];
-					pt[2]=list1[i];
-					pt[3]=list1[i];
+					for (int l=0; l<4; l++)
+						pt[l]=list1[i];
 					rc6_block_encrypt(pt,ct);
-					list2[4*i+0]=ct[0];
-					list2[4*i+1]=ct[1];
-					list2[4*i+2]=ct[2];
-					list2[4*i+3]=ct[3];
+					for (int l=0; l<4; l++)
+						list2[4*i+l]=ct[l];
 				}
 				fwrite(list2, sizeof(unsigned int), 4*vol, fout);
 			} else {
 				fread(list2, sizeof(unsigned int), 4*vol, fin);
 				for (int i=0;i<vol;i++) {
-					pt[0]=list2[4*i+0];
-					pt[1]=list2[4*i+1];
-					pt[2]=list2[4*i+2];
-					pt[3]=list2[4*i+3];
+					for (int l=0; l<4; l++)
+						pt[l]=list2[4*i+l];
 					rc6_block_decrypt(pt,ct);
 					list1[i]=ct[0];
 				}
